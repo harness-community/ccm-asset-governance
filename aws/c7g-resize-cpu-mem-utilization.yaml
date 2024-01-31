@@ -1,0 +1,29 @@
+policies:
+- name: c7g-resize-cpu-mem-utilization
+  description: Resize c7g instances where the max cpu and memory utilization for last 30 days is less than 50%
+  resource: ec2
+  filters:
+  - type: metrics
+    name: CPUUtilization
+    days: 30
+    period: 86400
+    value: 50
+    op: less-than
+  - type: metrics
+    namespace: CWAgent
+    name: mem_used_percent
+    days: 30
+    period: 86400
+    value: 50
+    op: less-than
+  actions:
+  - type: resize
+    type-map:
+      c7g.8xlarge: c7g.4xlarge
+      c7g.4xlarge: c7g.2xlarge
+      c7g.2xlarge: c7g.xlarge
+      c7g.xlarge: c7g.large
+      c7g.large: c7g.medium
+    restart: true
+        
+        
