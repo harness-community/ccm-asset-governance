@@ -1,0 +1,14 @@
+# Identifying long-running BigQuery jobs helps in optimizing resource usage and reducing cost
+# Applying filters such as WHERE clauses, reducing scanned data, or using partitioned tables can speed up execution
+
+# This rule lists queries whose execution time exceeds 60,000 milliseconds (1 minute) for review and tuning
+
+policies:
+  - name: list-long-running-jobs-gcp-bigquery
+    resource: gcp.bq-job
+    filters:
+      - type: value
+        key: statistics.finalExecutionDurationMs
+        op: greater-than
+        value_type: integer
+        value: 60000

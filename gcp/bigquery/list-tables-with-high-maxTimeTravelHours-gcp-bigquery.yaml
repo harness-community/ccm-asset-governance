@@ -1,0 +1,17 @@
+# Identifies BigQuery tables with a high maxTimeTravelHours setting, which controls how far back in time a table's state can be restored.
+# The default time travel window is 168 hours (7 days), the minimum allowed is 48 hours.
+# Time travel enables querying a table's previous state, which increases storage and snapshot retention costs.
+# Reducing this window to 48 hours can lower storage and snapshot-related costs, especially for frequently updated tables.
+
+# Example usage of time travel query:
+# SELECT * FROM `project.dataset.table` FOR SYSTEM_TIME AS OF TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR);
+
+policies:
+  - name: list-tables-with-high-maxTimeTravelHours-gcp-bigquery
+    resource: gcp.bq-table
+    filters:
+      - type: value
+        key: "c7n:bq-dataset.maxTimeTravelHours"
+        op: greater-than
+        value_type: integer
+        value: 48

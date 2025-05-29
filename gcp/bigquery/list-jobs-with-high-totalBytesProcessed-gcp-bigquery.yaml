@@ -1,0 +1,15 @@
+# Detects BigQuery jobs that process a large volume of data (> 1 GB), which can lead to higher query costs.
+# Optimizing such queries with filters (WHERE clauses), partitioned tables, or selective column usage can reduce scanned data.
+# Reducing totalBytesProcessed improves performance and minimizes cost per query.
+
+# Refer to BigQuery cost optimization best practices: https://cloud.google.com/bigquery/docs/best-practices-costs
+
+policies:
+  - name: list-jobs-with-high-totalBytesProcessed-gcp-bigquery
+    resource: gcp.bq-job
+    filters:
+      - type: value
+        key: statistics.totalBytesProcessed
+        op: greater-than
+        value_type: integer        
+        value: 1073741824

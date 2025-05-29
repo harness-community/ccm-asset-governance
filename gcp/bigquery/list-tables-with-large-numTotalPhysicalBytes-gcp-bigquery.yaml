@@ -1,0 +1,15 @@
+# Identifies BigQuery tables consuming large amounts of physical storage (> 1 GB).
+# Large tables may include old, redundant, or unused data that can be pruned.
+# Archiving or deleting old partitions can reduce long-term storage and backup costs.
+
+# This rule helps flag tables that are candidates for optimization to control data storage expenses.
+
+policies:
+  - name: list-tables-with-large-numTotalPhysicalBytes-gcp-bigquery
+    resource: gcp.bq-table
+    filters:
+      - type: value
+        key: numTotalPhysicalBytes
+        op: greater-than
+        value_type: integer        
+        value: 1073741824        
