@@ -1,0 +1,24 @@
+# Identifies long-running AWS SageMaker notebook instances that have not been modified recently.
+# Usually notebooks don't have to run forever
+# Notebooks are designed to be started and stopped based on demand; leaving them running unnecessarily increases compute costs.
+# Notebook states can be saved and started from that state whenever required
+# This rule detects long running notebooks that have been running for long time
+# This rule filters notebooks with a LastModifiedTime older than 1 day and in active states like Pending, InService, or Updating.
+# Helps detect idle or abandoned notebooks that can be stopped to optimize cost and resource usage.
+
+policies:
+  - name: list-long-running-instances-aws-sagemaker
+    resource: aws.sagemaker-notebook
+    filters:
+      - type: value
+        key: LastModifiedTime
+        value_type: age
+        op: gt
+        value: 1
+      - type: value
+        key: NotebookInstanceStatus
+        op: in
+        value:
+          - Pending
+          - InService
+          - Updating
