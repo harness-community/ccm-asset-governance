@@ -1,0 +1,16 @@
+# Identifies Azure Cognitive Services with cost-saving recommendations to scale down Provisioned Throughput Units (PTUs) from Azure Advisor.
+# Specifically targets PTU scaling recommendations (recommendationTypeId: 'b943f4f0-a520-4b48-b546-70eae9d882d0').
+# These recommendations help reduce over-provisioning by adjusting PTU levels based on actual usage, thereby lowering costs.
+# Enables proactive cost optimization by acting on Azure Advisor's Cost category recommendations.
+
+# Refer here for recommendation IDs https://learn.microsoft.com/en-us/azure/advisor/advisor-reference-cost-recommendations
+
+policies:
+  - name: list-scale-down-ptu-azure-cognitive-service
+    resource: azure.cognitiveservice
+    filters:
+      - type: advisor-recommendation
+        category: Cost
+        key: '[].properties.recommendationTypeId'
+        op: contains
+        value: 'b943f4f0-a520-4b48-b546-70eae9d882d0'

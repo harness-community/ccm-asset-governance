@@ -1,0 +1,17 @@
+# Identifies Azure Cognitive Services (e.g., Speech Service) with cost-saving recommendations from Azure Advisor.
+# Specifically targets commitment tier upgrade/downgrade suggestions (recommendationTypeId: 'e4429ab9-f27e-4750-89a7-30bce345f7fa').
+# These recommendations help align the selected pricing tier with actual usage to reduce unnecessary spend.
+# Enables proactive cost optimization by acting on Azure Advisor's Cost category recommendations.
+
+# Refer here for recommendation IDs https://learn.microsoft.com/en-us/azure/advisor/advisor-reference-cost-recommendations
+
+
+policies:
+  - name: list-speech-commitment-tier-azure-cognitive-service
+    resource: azure.cognitiveservice
+    filters:
+      - type: advisor-recommendation
+        category: Cost
+        key: '[].properties.recommendationTypeId'
+        op: contains
+        value: 'e4429ab9-f27e-4750-89a7-30bce345f7fa'
