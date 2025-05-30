@@ -1,0 +1,16 @@
+# Identifies Azure Databricks resources with cost-saving recommendations from Azure Advisor.
+# Specifically targets underutilized Azure Databricks workspaces (recommendationTypeId: '8bd8e2a7-0dde-409a-ae31-d4ee8bae6d87').
+# These recommendations help reduce costs by resizing or shutting down idle or underused clusters.
+# Enables proactive cost optimization by acting on Azure Advisor's Cost category recommendations.
+
+# Refer here for recommendation IDs https://learn.microsoft.com/en-us/azure/advisor/advisor-reference-cost-recommendations
+
+policies:
+  - name: list-enable-auto-scaling-azure-databricks
+    resource: azure.databricks
+    filters:
+      - type: advisor-recommendation
+        category: Cost
+        key: '[].properties.recommendationTypeId'
+        op: contains
+        value: '8bd8e2a7-0dde-409a-ae31-d4ee8bae6d87'

@@ -1,0 +1,16 @@
+# Identifies Azure Cognitive Services (e.g., Language Service) with cost-saving recommendations from Azure Advisor.
+# Specifically targets commitment tier upgrade/downgrade suggestions (recommendationTypeId: 'c1c98b41-ddf6-4b27-988c-0e8e6359a42a').
+# These recommendations help align the selected pricing tier with actual usage to reduce unnecessary spend.
+# Enables proactive cost optimization by acting on Azure Advisor's Cost category recommendations.
+
+# Refer here for recommendation IDs https://learn.microsoft.com/en-us/azure/advisor/advisor-reference-cost-recommendations
+
+policies:
+  - name: list-language-service-commitment-tier-azure-cognitive-service
+    resource: azure.cognitiveservice
+    filters:
+      - type: advisor-recommendation
+        category: Cost
+        key: '[].properties.recommendationTypeId'
+        op: contains
+        value: 'c1c98b41-ddf6-4b27-988c-0e8e6359a42a'

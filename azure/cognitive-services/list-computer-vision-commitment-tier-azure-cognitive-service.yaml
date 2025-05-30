@@ -1,0 +1,16 @@
+# Identifies Azure Cognitive Services (e.g., Computer Vision) with cost-saving recommendations from Azure Advisor.
+# Specifically targets commitment tier upgrade/downgrade suggestions (recommendationTypeId: '37cc8f6a-8059-407e-995a-10528ee3687b').
+# These recommendations help align the selected pricing tier with actual usage to reduce unnecessary spend.
+# Enables proactive cost optimization by acting on Azure Advisor's Cost category recommendations.
+
+# Refer here for recommendation IDs https://learn.microsoft.com/en-us/azure/advisor/advisor-reference-cost-recommendations
+
+policies:
+  - name: list-computer-vision-commitment-tier-azure-cognitive-service
+    resource: azure.cognitiveservice
+    filters:
+      - type: advisor-recommendation
+        category: Cost
+        key: '[].properties.recommendationTypeId'
+        op: contains
+        value: '37cc8f6a-8059-407e-995a-10528ee3687b'

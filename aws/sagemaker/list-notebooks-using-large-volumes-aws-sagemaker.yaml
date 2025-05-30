@@ -1,0 +1,13 @@
+# Identifies AWS SageMaker notebook instances that are using large attached EBS volumes (> 64 GB).
+# Notebooks with large storage allocations may be over-provisioned, unused, or holding outdated data.
+# Cleaning up these volumes or resizing them can help reduce storage costs and improve efficiency.
+# It's advisable to implement lifecycle configurations to clean up local disks on notebook shutdown.
+
+policies:
+  - name: list-notebooks-using-large-volumes-aws-sagemaker
+    resource: aws.sagemaker-notebook
+    filters:
+      - type: value
+        key: VolumeSizeInGB
+        op: gt
+        value: 64
